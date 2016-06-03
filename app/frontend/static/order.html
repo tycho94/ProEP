@@ -7,6 +7,8 @@
     <title>Your Order</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- styling -->
     <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,300,700' rel='stylesheet' type='text/css'>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/uikit.min.css">
@@ -15,70 +17,72 @@
     <link rel="stylesheet" href="/assets/css/bootstrap.css">
     <link rel="stylesheet" href="/assets/css/style.css"/>
     <link rel="stylesheet" href="/assets/css/responsive.css"/>
-    <script src="/assets/js/vendor/modernizr-2.8.3.min.js"></script>
-    <!--Angular 2-->
-    <script src="/node_modules/es6-shim/es6-shim.min.js"></script>
-    <script src="/node_modules/systemjs/dist/system-polyfills.js"></script>
+
+    <!-- js -->
+    <script src="/node_modules/npm-modernizr/modernizr.js"></script>
+    <script src="/node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="/node_modules/rxjs/Rx.js"></script>
+    <script src="/node_modules/rxjs/bundles/Rx.umd.js"></script>
+    <script src="/node_modules/zone.js/dist/zone.js"></script>
+    <script src="/node_modules/core-js/client/shim.min.js"></script>
+
+    <!--angular2 -->
+    <script src="/node_modules/@angular/core/core.umd.js"></script>
+    <script src="/node_modules/@angular/common/common.umd.js"></script>
+    <script src="/node_modules/@angular/compiler/compiler.umd.js"></script>
+    <script src="/node_modules/@angular/platform-browser/platform-browser.umd.js"></script>
+    <script src="/node_modules/@angular/platform-browser-dynamic/platform-browser-dynamic.umd.js"></script>
     <script src="/node_modules/@angular/http/http.js"></script>
-    <script src="/node_modules/@angular/router/r"></script>
-    <script src="/node_modules/@angular/http/http.js"></script>
+
+    <!-- config systemjs -->
+    <script src="/node_modules/systemjs/dist/system.src.js"></script>
+    <script src="/systemjs.config.js"></script>
+    <script>
+        System.import('/app/bootstrap').catch(function(err){ console.error(err); });
+    </script>
 </head>
 
-<body>
-<!--[if lt IE 8]>
-<p class="browserupgrade">
-    You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your
-    browser</a> to improve your experience.
-</p>
-<![endif]-->
-<header class="header_area">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="logo" data-uk-scrollspy="{cls:'uk-animation-scale-up', repeat: true, delay:400}">
-                    <a href="/"><img src="/assets/img/logo.png"/></a>
-                </div>
-            </div>
-            <div class="col-sm-9">
-                <div class="to-close pull-right">
-                    <div class="x">
-                        <input type="checkbox" id="menu-x"/>
-                        <label for="menu-x"><span></span></label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--End row-->
-    </div>
-    <!--End container-->
-</header>
-<!--End header_area-->
 
-<div class="menu_body">
-    <section class="mainmenu_area">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="mainmenu text-center">
-                        <ul id="nav">
-                            <li><a href="/">home</a>
-                            </li>
-                            <li><a href="work.html">how it works</a>
-                            </li>
-                            <li><a href="order.html">your order</a>
-                            </li>
-                            <li><a href="sign-in.html">sign in</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+<body>
+    <!-- navigation sign -->
+    <header class="header_area">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="to-close pull-right">
+              <div class="x">
+                <input type="checkbox" id="menu-x"/>
+                <label for="menu-x"><span></span></label>
+              </div>
             </div>
-            <!--End row-->
+          </div>
         </div>
-        <!--End container-->
-    </section>
-    <!--End mainmenu_area-->
-</div>
+      </div>
+    </header>
+
+    <!-- navigation popup -->
+    <div class="menu_body">
+      <section class="mainmenu_area">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="mainmenu text-center">
+                <ul id="nav">
+                  <li><a href="/">home</a>
+                  </li>
+                  <li><a href="/static/work.html">how it works</a>
+                  </li>
+                  <li><a href="/static/order.html">your order</a>
+                  </li>
+                  <li><a href="/static/sign-in.html">sign in</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
 
 <div class="order_bg">
     <section class="order_area">
