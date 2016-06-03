@@ -8,14 +8,18 @@ import {Http, Headers} from '@angular/http';
 @Injectable()
 export class SignInService
 {
-    constructor(private _http: Http){}
+    http: Http;
 
-    postData(data:any)
-    {
+    constructor (http: Http) {
+        this.http = http;
+    }
+
+    postData(data: any) {
         const body = JSON.stringify(data);
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('https://demo6816634.mockable.io/data.json',body,{headers: headers})
+        return this.http
+            .post('https://demo6816634.mockable.io/data.json', body, {headers: headers})
             .map(response => response.json());
     }
 }
