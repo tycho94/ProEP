@@ -1,32 +1,34 @@
-import {Component} from '@angular/core';
-import {SignInService} from "./sign-in.service";
+/**
+ * Created by Adjoa on 5/27/2016.
+ */
+
+import { Component } from '@angular/core';
+import { SignInService } from "./sign-in.service";
 
 
 @Component({
-    selector: 'app-sign-in',
-    templateUrl: '/static/sign-in.html',
-    styleUrls: ['/assets/css/style.css']
+    selector: 'sign-in',
+    template: `
+        <h1>Hello, world!</h1>
+    `,
+    providers: [SignInService],
 })
 
 export class SignInComponent {
+    service: SignInService;
     response: string;
-    constructor(private _signInService: SignInService){}
-    onPost(first_name: string, last_name: string, username: string, housenumber: number, address: string, postcode: string, emailaddress:string, passwrd: string){
-        const data={
-            firstname: first_name,
-            lastname: last_name,
-            username: username,
-            housenum: housenumber,
-            address: address,
-            postcode: postcode,
-            emailaddress: emailaddress,
-            passwrd: passwrd
-        }
-        this._signInService.postData(data)
-            .subscribe(
-                data => this.response = JSON.stringify(data),
-                error => console.log(error)
-            );
-    };
+    userData: {};
 
+    constructor (service: SignInService) {
+        this.service = service;
+    }
+
+    onPost() {
+        this.signInService
+        .postData(userDatadata)
+        .subscribe(
+            data => this.response = JSON.stringify(data),
+            error => console.log(error)
+        );
+    };
 }
