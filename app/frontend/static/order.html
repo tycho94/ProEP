@@ -19,12 +19,12 @@
     <link rel="stylesheet" href="/assets/css/responsive.css"/>
 
     <!-- js -->
+    <script src="/node_modules/core-js/client/shim.min.js"></script>
     <script src="/node_modules/npm-modernizr/modernizr.js"></script>
     <script src="/node_modules/reflect-metadata/Reflect.js"></script>
     <script src="/node_modules/rxjs/Rx.js"></script>
     <script src="/node_modules/rxjs/bundles/Rx.umd.js"></script>
     <script src="/node_modules/zone.js/dist/zone.js"></script>
-    <script src="/node_modules/core-js/client/shim.min.js"></script>
 
     <!--angular2 -->
     <script src="/node_modules/@angular/core/core.umd.js"></script>
@@ -39,9 +39,8 @@
     <script src="/systemjs.config.js"></script>
     <script>System.import('/app/bootstrap').catch(function(err){ console.error(err); });</script>
   </head>
-
-
   <body>
+    <navigation-menu></navigation-menu>
     <div class="order_bg">
       <section class="order_area">
         <div class="container">
@@ -142,7 +141,6 @@ window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.12.0.mi
 </script>
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/plugins.js"></script>
-<script src="/assets/js/main.js"></script>
   </body>
 
 </html>

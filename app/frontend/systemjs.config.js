@@ -4,6 +4,7 @@
         'app':                        'app', // 'dist',
         '@angular':                   '/node_modules/@angular',
         'angular2-in-memory-web-api': '/node_modules/angular2-in-memory-web-api',
+        'rxjs':                       '/node_modules/rxjs'
     };
 
     // packages tells the System loader how to load when no filename and/or no extension
@@ -13,8 +14,8 @@
             defaultExtension: 'js'
         },
         'angular2-in-memory-web-api': {
-            main: 'index.js',
-        },
+            main: 'index.js'
+        }
     };
 
     var packageNames = [
@@ -42,11 +43,9 @@
     packages['@angular/platform-browser-dynamic'].main = 'platform-browser-dynamic.umd.js';
 
     var config = {
-        paths: {
-            "rxjs/*": "node_modules/rxjs/bundles/Rx.umd.min.js"
-        },
         map: map,
         packages: packages,
+        defaultJSExtensions: true
     }
 
     System.config(config);
