@@ -32,7 +32,7 @@ public class Restaurant {
         this.address = address;
         this.email = null;
         this.phoneNumber = null;
-        this.menu = new ArrayList<Item>();
+        this.menu = new ArrayList<>();
     }
 
     public Restaurant(int resID, String resName, String password, String email, String phoneNumber, Address address) {

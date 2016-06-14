@@ -19,7 +19,6 @@ import service.RestaurantService;
 @Path("restaurant")
 @Produces(MediaType.APPLICATION_JSON)
 public class RestaurantResource {
-
     Response r;
     RestaurantService service;
 

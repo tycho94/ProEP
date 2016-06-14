@@ -11,13 +11,12 @@ import model.Item;
 import model.Order;
 
 /**
- *
  * @author Amir
- */
+ **/
 public class OrderService {
 
     List<Order> orderList = new ArrayList<>();
-
+    
     public OrderService() {
         orderList.add(new Order(0, "Tycho"));
         orderList.add(new Order(1, "Tycho"));
