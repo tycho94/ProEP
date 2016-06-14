@@ -1,42 +1,53 @@
 (function(global) {
 
-    // map tells the System loader where to look for things
     var map = {
         'app':                        'app', // 'dist',
-        'rxjs':                       'node_modules/rxjs',
-        '@angular':                   'node_modules/@angular'
+        '@angular':                   '/node_modules/@angular',
+        'angular2-in-memory-web-api': '/node_modules/angular2-in-memory-web-api',
     };
 
     // packages tells the System loader how to load when no filename and/or no extension
     var packages = {
-        'app':                        { main: 'boot.js',  defaultExtension: 'js' },
-        'rxjs':                       { defaultExtension: 'js' },
+        'app': {
+            main: 'bootstrap.js',
+            defaultExtension: 'js'
+        },
+        'angular2-in-memory-web-api': {
+            main: 'index.js',
+        },
     };
 
     var packageNames = [
-        '@angular/common',
-        '@angular/compiler',
-        '@angular/core',
-        '@angular/http',
-        '@angular/platform-browser',
-        '@angular/platform-browser-dynamic',
-        '@angular/router',
-        '@angular/testing',
-        '@angular/upgrade'
+        'common',
+        'compiler',
+        'core',
+        'http',
+        'platform-browser',
+        'platform-browser-dynamic',
+        'router',
+        'router-deprecated',
+        'upgrade',
     ];
 
-    // add package entries for angular packages in the form '@angular/common': { main: 'index.js', defaultExtension: 'js' }
-    packageNames.forEach(function(pkgName) {
-        packages[pkgName] = { main: 'index.js', defaultExtension: 'js' };
+    // Individual files (~300 requests):
+    packageNames.forEach(function (name) {
+        packages['@angular/' + name] = { main: 'index.js', defaultExtension: 'js' };
     });
 
-    var config = {
-        map: map,
-        packages: packages
-    };
+    packages['@angular/common'].main = 'common.umd.js';
+    packages['@angular/core'].main = 'core.umd.js';
+    packages['@angular/compiler'].main = 'compiler.umd.js';
+    packages['@angular/http'].main = 'http.umd.js';
+    packages['@angular/platform-browser'].main = 'platform-browser.umd.js';
+    packages['@angular/platform-browser-dynamic'].main = 'platform-browser-dynamic.umd.js';
 
-    // filterSystemConfig - index.html's chance to modify config before we register it.
-    if (global.filterSystemConfig) { global.filterSystemConfig(config); }
+    var config = {
+        paths: {
+            "rxjs/*": "node_modules/rxjs/bundles/Rx.umd.min.js"
+        },
+        map: map,
+        packages: packages,
+    }
 
     System.config(config);
 
