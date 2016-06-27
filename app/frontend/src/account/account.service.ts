@@ -4,7 +4,7 @@ import 'rxjs/add/operator/toPromise';
 
 
 @Injectable()
-export class SignInService
+export class AccountService
 {
     http: Http;
 

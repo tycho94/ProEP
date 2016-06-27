@@ -3,6 +3,7 @@
     var map = {
         'app':                        'app', // 'dist',
         '@angular':                   'node_modules/@angular',
+        'router':                     'node_modules/@angular/router',
         'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
         'rxjs':                       'node_modules/rxjs'
     };
@@ -19,19 +20,20 @@
         'angular2-in-memory-web-api': {
             main: 'index.js',
             defaultExtension: 'js'
-        }
+        },
+        'router': {
+            main: 'index.js',
+            defaultExtension: 'js'
+        },
     };
 
     var packageNames = [
         'common',
         'compiler',
         'core',
-		'forms',
         'http',
         'platform-browser',
         'platform-browser-dynamic',
-        'router',
-        'router-deprecated',
         'upgrade',
     ];
 

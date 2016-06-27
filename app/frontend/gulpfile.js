@@ -20,7 +20,7 @@ gulp.task('bundle-ts', ['build-ts'], function() {
     var builder = new Builder('', 'systemjs.config.js');
 
     builder
-        .buildStatic('assets/js/bootstrap.js', 'app/bundle.js', { minify: true })
+        .buildStatic('app/bootstrap.js', 'app/bundle.js', { minify: true })
         .then(function() {
             console.log('Build complete');
         })
@@ -31,7 +31,7 @@ gulp.task('bundle-ts', ['build-ts'], function() {
 });
 
 gulp.task('watch', function () {
-    gulp.watch(src + '**/*.ts', ['build-ts']);
+    gulp.watch(src + '**/*.ts', ['build-ts', 'bundle-ts']);
 });
 
 gulp.task('default', ['watch', 'build-ts', 'bundle-ts']);

@@ -1,4 +1,8 @@
 import { bootstrap } from '@angular/platform-browser-dynamic';
-import { NavigationMenuComponent } from './utils/navigation.menu.component';
+import { AppComponent } from './app.component';
+import { APP_ROUTER_PROVIDERS } from './app.routes';
 
-bootstrap(NavigationMenuComponent);
+bootstrap(AppComponent, [
+    APP_ROUTER_PROVIDERS
+])
+.catch(err => console.error(err));

@@ -7,6 +7,7 @@
     "lite": "lite-server",
     "typings": "typings",
     "tsc": "tsc",
+    "tsc:w": "tsc:w",
     "postinstall": "typings install"
   },
   "license": "AGPLv3",
@@ -18,7 +19,6 @@
     "@angular/platform-browser": "2.0.0-rc.2",
     "@angular/platform-browser-dynamic": "2.0.0-rc.2",
     "@angular/router": "3.0.0-alpha.7",
-    "@angular/router-deprecated": "2.0.0-rc.2",
     "@angular/upgrade": "2.0.0-rc.2",
     "systemjs": "0.19.31",
     "core-js": "^2.4.0",
