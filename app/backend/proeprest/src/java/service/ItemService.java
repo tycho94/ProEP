@@ -17,15 +17,12 @@ import model.Item;
  */
 public class ItemService {
 
-    private List<Item> itemlist = new ArrayList<>();
+    private final List<Item> itemlist = new ArrayList<>();
 
     Database d;
 
     public ItemService() throws SQLException {
         d = new Database();
-
-        itemlist = d.GetAllItems("SELECT * FROM products");
-
     }
 
     public List<Item> getAllItems() {
@@ -44,9 +41,9 @@ public class ItemService {
 //		}
 //		return itemsForYear;
 //	}
-    public Item getItem(long id) throws Exception {
+    public Item getItem(int id) throws Exception {
         for (Item i : itemlist) {
-            if (i.getID() == id) {
+            if (i.getItemID()== id) {
                 return i;
             }
         }
@@ -66,22 +63,20 @@ public class ItemService {
     public List<Item> getRestaurantItems(String name) throws Exception {
 
         List<Item> rest = new ArrayList<>();
-        for (Item i : itemlist) {
-            if (i.getResteurant().equals(name)) {
-                rest.add(i);
-            }
-        }
+        itemlist.stream().filter((i) -> (i.getRestaurant().equals(name))).forEach((i) -> {
+            rest.add(i);
+        });
         return rest;
     }
 
     public void addItem(Item item) {
-        item.setID(itemlist.size() + 1);
+        item.setItemID(itemlist.size() + 1);
         itemlist.add(item);
     }
 
     public void updateItem(long id, Item item) {
         for (Item i : itemlist) {
-            if (i.getID() == id) {
+            if (i.getItemID() == id) {
                 i = item;
                 return;
             }
@@ -90,7 +85,7 @@ public class ItemService {
 
     public Item removeItem(long id) {
         for (Item i : itemlist) {
-            if (i.getID() == id) {
+            if (i.getItemID() == id) {
                 itemlist.remove(i);
                 return i;
             }

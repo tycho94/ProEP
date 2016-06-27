@@ -11,82 +11,61 @@ package model;
  */
 public class Item {
 
-    private int ID;
-    private String Name;
-    private int Price;
-    private int bidPrice;
-    private int resteurant_ID;
-    private String Resteurant;
+    private int itemID;
+    private String name;
+    private int price;
+    private Restaurant restaurant;
 
     public Item() {
     }
 
-    public Item(String Name, int Price, String Restaurant) {
-        this.ID = 0;
-        this.Name = Name;
-        this.Price = Price;
-        //this.bidPrice = bidPrice;
-        //this.ProductID = ProductID;
-        this.Resteurant = Restaurant;
+    public Item(int itemID, String name, int price, Restaurant restaurant) {
+        this.itemID = itemID;
+        this.name = name;
+        this.price = price;
+        this.restaurant = restaurant;
+    }    
+    
+    public Item(int itemID, String name, int price) {
+        this.itemID = itemID;
+        this.name = name;
+        this.price = price;
+        this.restaurant = null;
     }
 
-    public Item(int product_ID, int restaurant_ID, String name, int price, int bid) {
-        this.ID = product_ID;
-        this.Name = name;
-        this.Price = price;
-        this.bidPrice = bid;
-        this.resteurant_ID = restaurant_ID;
-    }
-
-    public long getID() {
-        return ID;
+    public int getItemID() {
+        return itemID;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public int getPrice() {
-        return Price;
+        return price;
     }
 
-    public int getBidPrice() {
-        return bidPrice;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-//    public int getProductID() {
-//        return ProductID;
-//    }
-    public String getResteurant() {
-        return Resteurant;
+    public void setItemID(int itemID) {
+        this.itemID = itemID;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setName(String Name) {
-        this.Name = Name;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
-    public void setPrice(int Price) {
-        this.Price = Price;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
-
-    public void setBidPrice(int Price) {
-        this.Price = bidPrice;
-    }
-
-//    public void setProductID(int ProductID) {
-//        this.ProductID = ProductID;
-//    }
-    public void setResteurant(String Resteurant) {
-        this.Resteurant = Resteurant;
-    }
-
-    @Override
-    public String toString() {
-        return "Item{" + "Name=" + Name + ", Price=" + Price + ", bidPrice=" + bidPrice + '}';
-    }
+    
+    
+    
 
 }

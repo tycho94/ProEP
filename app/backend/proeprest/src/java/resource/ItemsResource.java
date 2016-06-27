@@ -5,6 +5,7 @@
  */
 package resource;
 
+import database.Database;
 import java.sql.SQLException;
 import java.util.List;
 import javax.ws.rs.*;
@@ -24,11 +25,8 @@ import service.ItemService;
 public class ItemsResource {
 
     Response r;
+    Database db = new Database();
     ItemService itemService = null;
-
-    public ItemsResource() throws SQLException {
-        itemService = new ItemService();
-    }
 
     @GET
     public Response getAllItems() throws Exception {
@@ -49,14 +47,14 @@ public class ItemsResource {
 
     @GET
     @Path("{ItemId}")
-    public Response getItem(@PathParam("ItemId") long id) throws Exception {
+    public Response getItemByID(@PathParam("ItemId") int id) throws Exception {
         r = null;
-        Item item = itemService.getItem(id);
+        Item item = db.GetItemByID(id);
         try {
             if (item != null) {
                 r = Response.ok(item).build();
             } else {
-                throw new Exception("Nothing exist here!");
+                throw new Exception("Item not found!");
             }
         } catch (Exception e) {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
@@ -65,19 +63,18 @@ public class ItemsResource {
         } finally {
             return r;
         }
-    }
-
+    }    
+    
     @GET
-    @Path("rest/{restaurantName}")
-    public Response getRestaurantItems(@PathParam("restaurantName") String name) throws Exception {
+    @Path("rest/{RestaurantID}")
+    public Response getItemByRestaurantID(@PathParam("RestaurantID") int id) throws Exception {
         r = null;
-        List<Item> items = itemService.getRestaurantItems(name);
+        List<Item> items = db.GetItemsByRestaurantID(id);
         try {
             if (items != null) {
                 r = Response.ok(items).build();
             } else {
-                throw new Exception("Restaurant not found");
-
+                throw new Exception("Item not found!");
             }
         } catch (Exception e) {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
@@ -124,30 +121,13 @@ public class ItemsResource {
 
     @PUT
     @Path("{ItemId}")
-    public Response updateItem(@PathParam("ItemId") long id, Item item) {
+    public Response updateItem(@PathParam("ItemId") int id, Item item) {
         r = null;
         try {
             itemService.updateItem(id, item);
             r = Response.ok().build();
         } catch (Exception e) {
             r = Response.status(Response.Status.FORBIDDEN)
-                    .entity(e.getMessage())
-                    .build();
-        } finally {
-            return r;
-        }
-
-    }
-
-    @DELETE
-    @Path("{ItemId}")
-    public Response deleteItem(@PathParam("ItemId") long id) {
-        r = null;
-        try {
-            Item i = itemService.removeItem(id);
-            r = Response.ok().build();
-        } catch (Exception e) {
-            r = Response.status(Response.Status.NOT_FOUND)
                     .entity(e.getMessage())
                     .build();
         } finally {

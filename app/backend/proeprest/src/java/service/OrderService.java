@@ -21,7 +21,6 @@ public class OrderService {
         orderList.add(new Order(0, "Tycho"));
         orderList.add(new Order(1, "Tycho"));
         Order ord = new Order(2, "Tom");
-        ord.AddItemToOrder(new Item("Name", 10, "Restaurant"));
         orderList.add(ord);
     }
 

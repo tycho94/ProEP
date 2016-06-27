@@ -14,91 +14,47 @@ import java.util.List;
  */
 public class Restaurant {
 
-    int restaurant_ID;
-    String restaurant_Name;
+    int restaurantID;
+    String name;
     String password;
-    Address address;
-    String email;
-    String phoneNumber;
-    List<Item> menu;
-
+    String city;
+    
     public Restaurant() {
     }
 
-    public Restaurant(int resID, String resName, String password, Address address) {
-        this.restaurant_ID = resID;
-        this.restaurant_Name = resName;
+    public Restaurant(int resID, String resName, String password, String city) {
+        this.restaurantID = resID;
+        this.name = resName;
         this.password = password;
-        this.address = address;
-        this.email = null;
-        this.phoneNumber = null;
-        this.menu = new ArrayList<>();
-    }
-
-    public Restaurant(int resID, String resName, String password, String email, String phoneNumber, Address address) {
-        this.restaurant_ID = resID;
-        this.restaurant_Name = resName;
-        this.password = password;
-        this.address = address;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.menu = new ArrayList<Item>();
+        this.city = city;
     }
 
     public void setRestaurantID(int resID) {
-        this.restaurant_ID = resID;
+        this.restaurantID = resID;
     }
-
-    public void setRestaurantName(String resName) {
-        this.restaurant_Name = resName;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setMenu(Item itemX) {
-        this.menu.add(itemX);
-    }
-
     public int getRestaurantID() {
-        return restaurant_ID;
+        return restaurantID;
     }
-
-    public String getRestaurantName() {
-        return restaurant_Name;
-    }
-
+    
     public String getPassword() {
         return password;
     }
 
-    public Address getAddress() {
-        return address;
+    public String getName() {
+        return name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getCity() {
+        return city;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public void setCity(String city) {
+        this.city = city;
     }
-
-    public List<Item> getMenu() {
-        return this.menu;
-    }
+    
 
 }

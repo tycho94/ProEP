@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Version;
@@ -33,7 +34,9 @@ public class Database {
             updateUser,
             getAddressByID,
             getAddressIDByAddress,
-            createAddress;
+            createAddress,
+            getItemByID,
+            getItemByRestaurantID;
 
     public Database() {
         try {
@@ -63,11 +66,59 @@ public class Database {
                     "Select * from address where AddressID = ?");
             getAddressIDByAddress = c.prepareStatement(
                     "Select AddressID from address where city = ? and street = ? and housenumber = ? and addition = ?");
-
+            //items
+            getItemByID = c.prepareStatement(
+                    "Select * from products natural join restaurant where product_id = ?");
+            getItemByRestaurantID = c.prepareStatement(
+                    "Select * from products where restaurant_id = ?");
+            
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public Item GetItemByID(int id) {
+        Item i = null;
+        try {
+            getItemByID.setInt(1, id);
+            try (ResultSet rs = getItemByID.executeQuery()) {
+                while (rs.next()) {
+                    i = new Item(id, rs.getString("Name"), 
+                                     rs.getInt("Price"),
+                            new Restaurant(rs.getInt("Restaurant_ID"), 
+                                    rs.getString("Restaurant_Name"), 
+                                    rs.getString("Pass"), 
+                                    rs.getString("ResCity")));
+                }
+            }
+            getItemByID.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            return i;
+        }
+    }
+    
+    
+        public List<Item> GetItemsByRestaurantID(int id) {
+        List<Item> i = new ArrayList<>();
+        try {
+            getItemByRestaurantID.setInt(1, id);
+            try (ResultSet rs = getItemByRestaurantID.executeQuery()) {
+                while (rs.next()) {
+                    i.add(new Item(id, rs.getString("Name"), 
+                                     rs.getInt("Price")));
+                }
+            }
+            getItemByRestaurantID.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            i = null;
+        } finally {
+            return i;
+        }
+    }
+    
 
     public User GetUserByName(String name) {
         User u = null;
@@ -165,7 +216,7 @@ public class Database {
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (checkPass != null) {                
+            if (checkPass != null) {
                 if (checkPass.equals(pass)) {
                     return 1;
                 } else {
@@ -175,65 +226,6 @@ public class Database {
                 return -1;
             }
         }
-    }
-
-    public ArrayList GetAllRestaurant(String myQuery) throws SQLException {
-
-        Statement st = null;
-        Statement st2 = null;
-        ResultSet rs = null;
-        ResultSet rs2 = null;
-        ArrayList<Restaurant> query = new ArrayList<>();
-        try {
-            st = (Statement) c.createStatement();
-            st2 = (Statement) c.createStatement();
-            rs = st.executeQuery(myQuery);
-            while (rs.next()) {
-
-                int restaurant_ID = Integer.parseInt(rs.getString(1));
-                String restaurant_Name = rs.getString(2);
-                String password = rs.getString(3);
-                int addressID = Integer.parseInt(rs.getString(4));
-                //inner querry
-                rs2 = st2.executeQuery("SELECT * FROM address WHERE Address_ID = '" + addressID + "' ");
-                rs2.next();
-                String city = rs2.getString(2);
-                String street = rs2.getString(3);
-                int houseNumber = Integer.parseInt(rs2.getString(4));
-                String addition = rs2.getString(5);
-                Address address = new Address(city, street, houseNumber, addition);
-                //end of inner query
-                String email = rs.getString(5);
-                String phoneNumber = rs.getString(6);
-                System.out.print(restaurant_Name);
-                query.add(new Restaurant(restaurant_ID, restaurant_Name, password, email, phoneNumber, address));
-
-            }
-
-        } finally {
-            try {
-
-                if (rs != null) {
-                    rs.close();
-                }
-                if (st != null) {
-                    st.close();
-                }
-                if (c != null) {
-                    c.close();
-                }
-                if (rs2 != null) {
-                    rs2.close();
-
-                }
-            } catch (SQLException ex) {
-                Logger lgr = Logger.getLogger(Version.class
-                        .getName());
-                lgr.log(Level.WARNING, ex.getMessage(), ex);
-            }
-        }
-
-        return query;
     }
 
     /* private Address GetAddressByID(int id) {
@@ -284,53 +276,4 @@ public class Database {
     }*/
     //this is just a Temp Solution, i think, this function is slowing us down
     /////////////////////////////////////////////////////////////////////////
-    public ArrayList GetAllItems(String myQuery) throws SQLException {
-
-        Statement st = null;
-        ResultSet rs = null;
-
-        ArrayList<Item> itemList = new ArrayList<>();
-
-        try {
-            st = (Statement) c.createStatement();
-            rs = st.executeQuery(myQuery);
-            while (rs.next()) {
-
-                int product_ID = Integer.parseInt(rs.getString(1));
-                int restaurant_ID = Integer.parseInt(rs.getString(2));
-                String name = rs.getString(3);
-                int price = Integer.parseInt(rs.getString(4));
-                int bid = Integer.parseInt(rs.getString(5));
-
-                System.out.print(name);
-                itemList.add(new Item(product_ID, restaurant_ID,
-                        name, price, bid));
-            }
-
-        } finally {
-
-            try {
-
-                if (rs != null) {
-
-                    rs.close();
-                }
-                if (st != null) {
-
-                    st.close();
-                }
-                if (c != null) {
-
-                    c.close();
-                }
-
-            } catch (SQLException ex) {
-
-                Logger lgr = Logger.getLogger(Version.class.getName());
-                lgr.log(Level.WARNING, ex.getMessage(), ex);
-            }
-        }
-
-        return itemList;
-    }
 }

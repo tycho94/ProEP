@@ -5,8 +5,8 @@
  */
 package resource;
 
+import database.Database;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import model.Restaurant;
@@ -20,11 +20,8 @@ import service.RestaurantService;
 @Produces(MediaType.APPLICATION_JSON)
 public class RestaurantResource {
     Response r;
+    Database db = new Database();
     RestaurantService service;
-
-    public RestaurantResource() throws SQLException {
-        service = new RestaurantService();
-    }
 
     @GET
     @Path("id/{restaurant_ID}")
@@ -65,8 +62,8 @@ public class RestaurantResource {
     public Response getRestaurantByCity(@PathParam("City") String res_City) {
         try {
             r = null;
-            ArrayList<Restaurant> Res = service.getRestaurantByCity(res_City);
-            r = Response.ok(Res).build();
+           // ArrayList<Restaurant> Res = service.getRestaurantByCity(res_City);
+         //   r = Response.ok(Res).build();
         } catch (Exception e) {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage())
@@ -83,7 +80,7 @@ public class RestaurantResource {
         try {
             r = null;
             Restaurant Res = service.getRestaurantByname(res_name);
-            r = Response.ok(Res.getMenu()).build();
+        //    r = Response.ok(Res.getMenu()).build();
         } catch (Exception e) {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage())
