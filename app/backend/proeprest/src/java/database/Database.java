@@ -5,10 +5,12 @@
  */
 package database;
 
-import com.mysql.jdbc.*;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +24,6 @@ import model.*;
 public class Database {
 
     //public static void main(String[] args) {    }
-
     private Connection c;
 
     private PreparedStatement getAllUsers,
@@ -31,6 +32,7 @@ public class Database {
             createUser,
             updateUser,
             getAddressByID,
+            getAddressIDByAddress,
             createAddress;
 
     public Database() {
@@ -42,23 +44,25 @@ public class Database {
 
             //prepared statements
             //users
-            getAllUsers = (PreparedStatement) c.prepareStatement(
+            getAllUsers = c.prepareStatement(
                     "select * from users");
             //used join to get both address & user in one statement
-            getUserByName = (PreparedStatement) c.prepareStatement(
+            getUserByName = c.prepareStatement(
                     "select * from users natural join address where username = ?");
-            getPassword = (PreparedStatement) c.prepareStatement(
+            getPassword = c.prepareStatement(
                     "select username, password from users where username = ?");
-            createUser = (PreparedStatement) c.prepareStatement(
+            createUser = c.prepareStatement(
                     "insert into users (username, password, addressID, email) values (?,?,?,?)");
-            updateUser = (PreparedStatement) c.prepareStatement(
+            updateUser = c.prepareStatement(
                     "update users set password=?, email=? where username = ?");
             //address
-            createAddress = (PreparedStatement) c.prepareStatement(
+            createAddress = c.prepareStatement(
                     "insert into address (city, street, housenumber, addition) values (?,?,?,?)",
                     Statement.RETURN_GENERATED_KEYS);
-            getAddressByID = (PreparedStatement) c.prepareStatement(
+            getAddressByID = c.prepareStatement(
                     "Select * from address where AddressID = ?");
+            getAddressIDByAddress = c.prepareStatement(
+                    "Select AddressID from address where city = ? and street = ? and housenumber = ? and addition = ?");
 
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
@@ -108,19 +112,31 @@ public class Database {
     public boolean CreateUser(User u) {
         int addressID = -1;
         try {
-            //create address
-            createAddress.setString(1, u.getAddress().getCity());
-            createAddress.setString(2, u.getAddress().getStreet());
-            createAddress.setInt(3, u.getAddress().getHousenumber());
-            createAddress.setString(4, u.getAddress().getAddition());
-            createAddress.executeUpdate();
-            //get generated address id for user
-            try (ResultSet rs = createAddress.getGeneratedKeys()) {
-                if (rs.next()) {
-                    addressID = rs.getInt(1);
+            try {
+                //create address
+                createAddress.setString(1, u.getAddress().getCity());
+                createAddress.setString(2, u.getAddress().getStreet());
+                createAddress.setInt(3, u.getAddress().getHousenumber());
+                createAddress.setString(4, u.getAddress().getAddition());
+                createAddress.executeUpdate();
+                //get generated address id for user
+                try (ResultSet rs = createAddress.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        addressID = rs.getInt(1);
+                    }
                 }
+                createAddress.close();
+            } catch (SQLException ex) {
+                getAddressIDByAddress.setString(1, u.getAddress().getCity());
+                getAddressIDByAddress.setString(2, u.getAddress().getStreet());
+                getAddressIDByAddress.setInt(3, u.getAddress().getHousenumber());
+                getAddressIDByAddress.setString(4, u.getAddress().getAddition());
+                ResultSet rs = getAddressIDByAddress.executeQuery();
+                while (rs.next()) {
+                    addressID = rs.getInt("AddressID");
+                }
+                getAddressIDByAddress.close();
             }
-            createAddress.close();
             //create user
             createUser.setString(1, u.getUsername());
             createUser.setString(2, u.getPassword());
@@ -131,25 +147,33 @@ public class Database {
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-        } finally {
-            return true;
         }
+        return true;
+
     }
 
-    public String GetPassword(String name) {
-        String pass = null;
+    public int Login(String name, String pass) {
+        String checkPass = null;
         try {
             getPassword.setString(1, name);
             try (ResultSet rs = getPassword.executeQuery()) {
                 while (rs.next()) {
-                    pass = rs.getString("Password");
+                    checkPass = rs.getString("Password");
                 }
             }
-            getAllUsers.close();
+            getPassword.close();
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            return pass;
+            if (checkPass != null) {                
+                if (checkPass.equals(pass)) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            } else {
+                return -1;
+            }
         }
     }
 

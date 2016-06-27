@@ -76,7 +76,7 @@ public class ItemsResource {
             if (items != null) {
                 r = Response.ok(items).build();
             } else {
-                throw new Exception("We dont have a list of items for that restaurant.");
+                throw new Exception("Restaurant not found");
 
             }
         } catch (Exception e) {

@@ -12,8 +12,6 @@ package model;
 public class User {
 
     String username;
-    String firstname;
-    String lastname;
     String password;
     Address address;
     String email;
