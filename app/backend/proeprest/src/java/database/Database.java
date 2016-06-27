@@ -24,19 +24,27 @@ import model.*;
  */
 public class Database {
 
-    //public static void main(String[] args) {    }
     private Connection c;
 
-    private PreparedStatement getAllUsers,
+    private PreparedStatement 
+            getAllUsers,
             getUserByName,
             getPassword,
             createUser,
             updateUser,
+            
             getAddressByID,
             getAddressIDByAddress,
             createAddress,
+            
             getItemByID,
-            getItemByRestaurantID;
+            getItemByRestaurantID,
+            
+            getRestaurantByID,
+            getRestaurantByName,
+            getRestaurantsByCity
+            
+            ;
 
     public Database() {
         try {
@@ -71,23 +79,100 @@ public class Database {
                     "Select * from products natural join restaurant where product_id = ?");
             getItemByRestaurantID = c.prepareStatement(
                     "Select * from products where restaurant_id = ?");
+
+            //restaurants
+            getRestaurantByID = c.prepareStatement(
+                    "Select * from restaurant where restaurant_id = ?");
+            getRestaurantByName = c.prepareStatement(
+                    "Select * from restaurant where restaurant_name = ?");
+            getRestaurantsByCity = c.prepareStatement(
+                    "Select * from restaurant where ResCity = ?");
+            //Orders
             
+
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    public Restaurant getRestaurantByID(int id) {
+        Restaurant r = null;
+        try {
+            getRestaurantByID.setInt(1, id);
+            try (ResultSet rs = getRestaurantByID.executeQuery()) {
+                while (rs.next()) {
+                    r = new Restaurant(id, 
+                            rs.getString("Restaurant_Name"), 
+                            rs.getString("Pass"), 
+                            rs.getString("ResCity"));
+                }
+            }
+            getRestaurantByID.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            r = null;
+        }
+        finally{
+            return r;
+        }
+    }
+    
+    public Restaurant getRestaurantByName(String name) {
+        Restaurant r = null;
+        try {
+            getRestaurantByName.setString(1, name);
+            try (ResultSet rs = getRestaurantByName.executeQuery()) {
+                while (rs.next()) {
+                    r = new Restaurant(rs.getInt("Restaurant_ID"), 
+                            name,
+                            rs.getString("Pass"), 
+                            rs.getString("ResCity"));
+                }
+            }
+            getRestaurantByName.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            r = null;
+        }
+        finally{
+            return r;
+        }
+    }
+    
+        public List<Restaurant> getRestaurantByCity(String city) {
+        List<Restaurant> r = new ArrayList<>();
+        try {
+            getRestaurantsByCity.setString(1, city);
+            try (ResultSet rs = getRestaurantsByCity.executeQuery()) {
+                while (rs.next()) {
+                    r.add(new Restaurant(rs.getInt("Restaurant_ID"), 
+                            rs.getString("Restaurant_Name"),
+                            rs.getString("Pass"), 
+                            city));
+                }
+            }
+            getRestaurantsByCity.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            r = null;
+        }
+        finally{
+            return r;
+        }
+    }
+
+    
     public Item GetItemByID(int id) {
         Item i = null;
         try {
             getItemByID.setInt(1, id);
             try (ResultSet rs = getItemByID.executeQuery()) {
                 while (rs.next()) {
-                    i = new Item(id, rs.getString("Name"), 
-                                     rs.getInt("Price"),
-                            new Restaurant(rs.getInt("Restaurant_ID"), 
-                                    rs.getString("Restaurant_Name"), 
-                                    rs.getString("Pass"), 
+                    i = new Item(id, rs.getString("Name"),
+                            rs.getInt("Price"),
+                            new Restaurant(rs.getInt("Restaurant_ID"),
+                                    rs.getString("Restaurant_Name"),
+                                    rs.getString("Pass"),
                                     rs.getString("ResCity")));
                 }
             }
@@ -98,16 +183,15 @@ public class Database {
             return i;
         }
     }
-    
-    
-        public List<Item> GetItemsByRestaurantID(int id) {
+
+    public List<Item> GetItemsByRestaurantID(int id) {
         List<Item> i = new ArrayList<>();
         try {
             getItemByRestaurantID.setInt(1, id);
             try (ResultSet rs = getItemByRestaurantID.executeQuery()) {
                 while (rs.next()) {
-                    i.add(new Item(id, rs.getString("Name"), 
-                                     rs.getInt("Price")));
+                    i.add(new Item(id, rs.getString("Name"),
+                            rs.getInt("Price")));
                 }
             }
             getItemByRestaurantID.close();
@@ -118,7 +202,6 @@ public class Database {
             return i;
         }
     }
-    
 
     public User GetUserByName(String name) {
         User u = null;

@@ -6,29 +6,28 @@
 package resource;
 
 import database.Database;
-import java.sql.SQLException;
+import java.util.List;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import model.Restaurant;
-import service.RestaurantService;
 
 /**
  *
- * @author mikaeil
+ * @author tycho
  */
 @Path("restaurant")
 @Produces(MediaType.APPLICATION_JSON)
 public class RestaurantResource {
+
     Response r;
     Database db = new Database();
-    RestaurantService service;
 
     @GET
     @Path("id/{restaurant_ID}")
     public Response getRestaurantByID(@PathParam("restaurant_ID") int id) {
         try {
             r = null;
-            Restaurant Res = service.getRestaurantByID(id);
+            Restaurant Res = db.getRestaurantByID(id);
             r = Response.ok(Res).build();
         } catch (Exception e) {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
@@ -40,12 +39,12 @@ public class RestaurantResource {
     }
 
     @GET
-    @Path("restaurant_Name/{restaurant_Name}")
+    @Path("name/{resname}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getRestaurantByName(@PathParam("restaurant_Name") String res_name) {
+    public Response getRestaurantByName(@PathParam("resname") String res_name) {
         try {
             r = null;
-            Restaurant Res = service.getRestaurantByname(res_name);
+            Restaurant Res = db.getRestaurantByName(res_name);
             r = Response.ok(Res).build();
         } catch (Exception e) {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
@@ -57,45 +56,19 @@ public class RestaurantResource {
     }
 
     @GET
-    @Path("restaurant_City/{City}")
+    @Path("city/{city}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getRestaurantByCity(@PathParam("City") String res_City) {
-        try {
-            r = null;
-           // ArrayList<Restaurant> Res = service.getRestaurantByCity(res_City);
-         //   r = Response.ok(Res).build();
-        } catch (Exception e) {
-            r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(e.getMessage())
-                    .build();
-        } finally {
-            return r;
-        }
-    }
-
-    @GET
-    @Path("menu/{restaurant_Name}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getRestaurantMenu(@PathParam("restaurant_Name") String res_name) {
-        try {
-            r = null;
-            Restaurant Res = service.getRestaurantByname(res_name);
-        //    r = Response.ok(Res.getMenu()).build();
-        } catch (Exception e) {
-            r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(e.getMessage())
-                    .build();
-        } finally {
-            return r;
-        }
-    }
-
-    @POST
-    public Response createRestaurant(Restaurant Res) {
+    public Response getRestaurantsByCity(@PathParam("city") String city) {
+        List<Restaurant> res = null;
         r = null;
         try {
-            service.createRestaurant(Res);
-            r = Response.noContent().build();
+            res = db.getRestaurantByCity(city);
+            if (res != null) {
+                r = Response.ok(res).build();
+            } else {
+                r = Response.status(Response.Status.NOT_FOUND).
+                        entity("Not found").build();
+            }
         } catch (Exception e) {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage())
@@ -104,5 +77,4 @@ public class RestaurantResource {
             return r;
         }
     }
-
 }
