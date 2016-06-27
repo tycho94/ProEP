@@ -1,5 +1,5 @@
 import { ViewChild, Directive, ElementRef, Input } from '@angular/core';
-declare var $:JQueryStatic;
+declare var $: any;
 
 @Directive({
     selector: '[popup]',

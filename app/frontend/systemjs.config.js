@@ -2,9 +2,9 @@
 
     var map = {
         'app':                        'app', // 'dist',
-        '@angular':                   '/node_modules/@angular',
-        'angular2-in-memory-web-api': '/node_modules/angular2-in-memory-web-api',
-        'rxjs':                       '/node_modules/rxjs'
+        '@angular':                   'node_modules/@angular',
+        'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
+        'rxjs':                       'node_modules/rxjs'
     };
 
     // packages tells the System loader how to load when no filename and/or no extension
@@ -13,8 +13,12 @@
             main: 'bootstrap.js',
             defaultExtension: 'js'
         },
+		'rxjs': {
+            defaultExtension: 'js'
+		},
         'angular2-in-memory-web-api': {
-            main: 'index.js'
+            main: 'index.js',
+            defaultExtension: 'js'
         }
     };
 
@@ -22,6 +26,7 @@
         'common',
         'compiler',
         'core',
+		'forms',
         'http',
         'platform-browser',
         'platform-browser-dynamic',
@@ -30,17 +35,12 @@
         'upgrade',
     ];
 
-    // Individual files (~300 requests):
     packageNames.forEach(function (name) {
-        packages['@angular/' + name] = { main: 'index.js', defaultExtension: 'js' };
+        packages['@angular/' + name] = {
+			main: 'bundles/' + name + '.umd.js',
+			defaultExtension: 'js'
+		};
     });
-
-    packages['@angular/common'].main = 'common.umd.js';
-    packages['@angular/core'].main = 'core.umd.js';
-    packages['@angular/compiler'].main = 'compiler.umd.js';
-    packages['@angular/http'].main = 'http.umd.js';
-    packages['@angular/platform-browser'].main = 'platform-browser.umd.js';
-    packages['@angular/platform-browser-dynamic'].main = 'platform-browser-dynamic.umd.js';
 
     var config = {
         map: map,

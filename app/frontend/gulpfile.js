@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 
-var src = 'dev/';
+var src = 'src/';
 var out = 'app/';
 
 /* JS & TS */
@@ -20,7 +20,7 @@ gulp.task('bundle-ts', ['build-ts'], function() {
     var builder = new Builder('', 'systemjs.config.js');
 
     builder
-        .buildStatic('app/bootstrap.js', 'app/bundle.js', { minify: true })
+        .buildStatic('assets/js/bootstrap.js', 'app/bundle.js', { minify: true })
         .then(function() {
             console.log('Build complete');
         })

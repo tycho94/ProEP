@@ -18,26 +18,15 @@
     <link rel="stylesheet" href="/assets/css/style.css"/>
     <link rel="stylesheet" href="/assets/css/responsive.css"/>
 
-    <!-- js -->
+    <!-- load libs -->
     <script src="/node_modules/core-js/client/shim.min.js"></script>
-    <script src="/node_modules/npm-modernizr/modernizr.js"></script>
-    <script src="/node_modules/reflect-metadata/Reflect.js"></script>
-    <script src="/node_modules/rxjs/Rx.js"></script>
-    <script src="/node_modules/rxjs/bundles/Rx.umd.js"></script>
     <script src="/node_modules/zone.js/dist/zone.js"></script>
+    <script src="/node_modules/reflect-metadata/Reflect.js"></script>
 
-    <!--angular2 -->
-    <script src="/node_modules/@angular/core/core.umd.js"></script>
-    <script src="/node_modules/@angular/common/common.umd.js"></script>
-    <script src="/node_modules/@angular/compiler/compiler.umd.js"></script>
-    <script src="/node_modules/@angular/platform-browser/platform-browser.umd.js"></script>
-    <script src="/node_modules/@angular/platform-browser-dynamic/platform-browser-dynamic.umd.js"></script>
-    <script src="/node_modules/@angular/http/http.js"></script>
-
-    <!-- config systemjs -->
+    <!-- bootstrap app -->
     <script src="/node_modules/systemjs/dist/system.src.js"></script>
     <script src="/systemjs.config.js"></script>
-    <script>System.import('/app/bootstrap').catch(function(err){ console.error(err); });</script>
+    <script>System.import('/assets/js/bootstrap').catch(function(err){ console.error(err); });</script>
   </head>
   <body>
     <navigation-menu></navigation-menu>
