@@ -5,6 +5,7 @@
  */
 package resource;
 
+import database.Database;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -30,17 +31,15 @@ public class OrderResource {
 
     Response r;
     OrderService service;
-
-    public OrderResource() {
-        service = new OrderService();
-    }
+    Database db = new Database();
+    
 
     @GET
-    @Path("owner/{username}")
-    public Response getOrderByName(@PathParam("username") String username) {
+    @Path("{id}")
+    public Response getOrderByID(@PathParam("id") int id) {
         try {
             r = null;
-            List<Order> o = service.getOrdersByName(username);
+            Order o = db.getOrderByID(id);
             if (o != null) {
                 r = Response.ok(o).build();
             } else {
@@ -56,7 +55,7 @@ public class OrderResource {
             return r;
         }
     }
-
+/*
     @POST
     @Path("create")
     public Response createOrder(Order o) {
@@ -139,6 +138,6 @@ public class OrderResource {
         } finally {
             return r;
         }
-    }
+    }*/
 
 }

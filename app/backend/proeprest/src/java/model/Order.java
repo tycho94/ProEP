@@ -16,27 +16,20 @@ public class Order {
 
     private int ID;
     private String username;
-    List<Item> OrderList;
+    private List<Item> orderlist;
 
     public Order() {
+        this.orderlist = new ArrayList<>();
     }
 
     public Order(int ID, String username) {
         this.ID = ID;
         this.username = username;
-        this.OrderList = new ArrayList<>();
+        this.orderlist = new ArrayList<>();
     }
 
     public int getID() {
         return ID;
-    }
-
-    public String getOwner() {
-        return username;
-    }
-
-    public List<Item> getItemsFromOrders() {
-        return OrderList;
     }
 
     public void setID(int ID) {
@@ -47,16 +40,19 @@ public class Order {
         this.username = username;
     }
 
-//    public void setOrderList(List<Item> OrderList) {
-//        this.OrderList = OrderList;
-//    }
-    @Override
-    public String toString() {
-        return "Order{" + "ID=" + ID + ", Owner=" + username + ", OrderList=" + OrderList + '}';
+    public String getUsername() {
+        return username;
     }
 
-    public void AddItemToOrder(Item item) {
-        OrderList.add(item);
+    public List<Item> getOrderlist() {
+        return orderlist;
     }
 
+    public void addItem(Item i) {
+        orderlist.add(i);
+    }
+
+    public void setOrderlist(List<Item> orderlist) {
+        this.orderlist = orderlist;
+    }
 }

@@ -26,25 +26,20 @@ public class Database {
 
     private Connection c;
 
-    private PreparedStatement 
-            getAllUsers,
+    private PreparedStatement getAllUsers,
             getUserByName,
             getPassword,
             createUser,
             updateUser,
-            
             getAddressByID,
             getAddressIDByAddress,
             createAddress,
-            
             getItemByID,
             getItemByRestaurantID,
-            
             getRestaurantByID,
             getRestaurantByName,
-            getRestaurantsByCity
-            
-            ;
+            getRestaurantsByCity,
+            getOrderByID;
 
     public Database() {
         try {
@@ -88,10 +83,45 @@ public class Database {
             getRestaurantsByCity = c.prepareStatement(
                     "Select * from restaurant where ResCity = ?");
             //Orders
-            
+            getOrderByID = c.prepareStatement(
+                    "SELECT * FROM `order` WHERE `OrderID` = ?");
 
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public Order getOrderByID(int id) {
+        Order o = null;
+        String[] items = null;
+        try {
+            getOrderByID.setInt(1, id);
+            o = new Order();
+            try (ResultSet rs = getOrderByID.executeQuery()) {
+                while (rs.next()) {
+                    o.setID(id);
+                    o.setUsername(rs.getString("UserName"));
+                    items = rs.getString("list").split("-");
+                }
+                getOrderByID.close();
+            }
+
+            for (String i : items) {
+                getItemByID.setInt(1, Integer.parseInt(i));
+                try (ResultSet rs = getItemByID.executeQuery()) {
+                    while (rs.next()) {
+                        o.addItem(
+                                new Item(rs.getInt("product_id"),
+                                        rs.getString("Name"),
+                                        rs.getInt("price")));
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            o = null;
+        } finally {
+            return o;
         }
     }
 
@@ -101,67 +131,69 @@ public class Database {
             getRestaurantByID.setInt(1, id);
             try (ResultSet rs = getRestaurantByID.executeQuery()) {
                 while (rs.next()) {
-                    r = new Restaurant(id, 
-                            rs.getString("Restaurant_Name"), 
-                            rs.getString("Pass"), 
+                    r = new Restaurant(id,
+                            rs.getString("Restaurant_Name"),
+                            rs.getString("Pass"),
                             rs.getString("ResCity"));
                 }
             }
             getRestaurantByID.close();
+
         } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class
+                    .getName()).log(Level.SEVERE, null, ex);
             r = null;
-        }
-        finally{
+        } finally {
             return r;
         }
     }
-    
+
     public Restaurant getRestaurantByName(String name) {
         Restaurant r = null;
         try {
             getRestaurantByName.setString(1, name);
             try (ResultSet rs = getRestaurantByName.executeQuery()) {
                 while (rs.next()) {
-                    r = new Restaurant(rs.getInt("Restaurant_ID"), 
+                    r = new Restaurant(rs.getInt("Restaurant_ID"),
                             name,
-                            rs.getString("Pass"), 
+                            rs.getString("Pass"),
                             rs.getString("ResCity"));
                 }
             }
             getRestaurantByName.close();
+
         } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class
+                    .getName()).log(Level.SEVERE, null, ex);
             r = null;
-        }
-        finally{
+        } finally {
             return r;
         }
     }
-    
-        public List<Restaurant> getRestaurantByCity(String city) {
+
+    public List<Restaurant> getRestaurantByCity(String city) {
         List<Restaurant> r = new ArrayList<>();
         try {
             getRestaurantsByCity.setString(1, city);
             try (ResultSet rs = getRestaurantsByCity.executeQuery()) {
                 while (rs.next()) {
-                    r.add(new Restaurant(rs.getInt("Restaurant_ID"), 
+                    r.add(new Restaurant(rs.getInt("Restaurant_ID"),
                             rs.getString("Restaurant_Name"),
-                            rs.getString("Pass"), 
+                            rs.getString("Pass"),
                             city));
                 }
             }
             getRestaurantsByCity.close();
+
         } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class
+                    .getName()).log(Level.SEVERE, null, ex);
             r = null;
-        }
-        finally{
+        } finally {
             return r;
         }
     }
 
-    
     public Item GetItemByID(int id) {
         Item i = null;
         try {
@@ -177,8 +209,10 @@ public class Database {
                 }
             }
             getItemByID.close();
+
         } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } finally {
             return i;
         }
@@ -195,8 +229,10 @@ public class Database {
                 }
             }
             getItemByRestaurantID.close();
+
         } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class
+                    .getName()).log(Level.SEVERE, null, ex);
             i = null;
         } finally {
             return i;
@@ -221,8 +257,10 @@ public class Database {
                 }
             }
             getUserByName.close();
+
         } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } finally {
             return u;
         }
@@ -235,8 +273,10 @@ public class Database {
             updateUser.setString(3, u.getUsername());
             updateUser.executeUpdate();
             updateUser.close();
+
         } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class
+                    .getName()).log(Level.SEVERE, null, ex);
             return false;
         } finally {
             return true;
@@ -278,8 +318,10 @@ public class Database {
             createUser.setString(4, u.getEmail());
             createUser.executeUpdate();
             createUser.close();
+
         } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class
+                    .getName()).log(Level.SEVERE, null, ex);
             return false;
         }
         return true;
@@ -296,8 +338,10 @@ public class Database {
                 }
             }
             getPassword.close();
+
         } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (checkPass != null) {
                 if (checkPass.equals(pass)) {

@@ -24,26 +24,6 @@ public class OrderService {
         orderList.add(ord);
     }
 
-    public List<Order> getOrdersByName(String username) {
-        List<Order> returnorders = new ArrayList<>();
-        for (Order o : orderList) {
-            if (username.equals(o.getOwner())) {
-                returnorders.add(o);
-            }
-        }
-        return returnorders;
-    }
-
-    public boolean createOrder(Order orderNew) {
-        for (Order order : orderList) {
-            if (order.getOwner().equals(orderNew.getOwner())) {
-                return false;
-            }
-        }
-        orderList.add(orderNew);
-        return true;
-    }
-
     public boolean updateOrder(Order or) {
         for (Order order : orderList) {
             if (order.getID() == or.getID()) {
@@ -52,17 +32,6 @@ public class OrderService {
             }
         }
         return false;
-    }
-
-    public boolean AddItemToOrder(Order o, Item it) {
-        o.AddItemToOrder(it);
-//        for (Item item : getOrderByName(username)) {
-//            if (order.getID() == or.getID()) {
-//                order = or;
-//                return true;
-//            }
-//        }
-        return true;
     }
 
     public boolean AddOrder(Order ord) {
