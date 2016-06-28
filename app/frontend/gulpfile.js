@@ -19,19 +19,20 @@ gulp.task('bundle-ts', ['build-ts'], function() {
 
     var builder = new Builder('', 'systemjs.config.js');
 
+    console.log('... Build starting ... ');
     builder
-        .buildStatic('app/bootstrap.js', 'app/bundle.js', { minify: true })
+        .buildStatic('app/bootstrap.js', 'app/bundle.js')
         .then(function() {
-            console.log('Build complete');
+            console.log('--- Build complete ---');
         })
         .catch(function(err) {
-            console.log('Build error');
+            console.log('!!! Build error !!!');
             console.log(err);
         });
 });
 
 gulp.task('watch', function () {
-    gulp.watch(src + '**/*.ts', ['build-ts', 'bundle-ts']);
+    gulp.watch([src + '**/*.ts', 'gulpfile.js'], ['build-ts', 'bundle-ts']);
 });
 
 gulp.task('default', ['watch', 'build-ts', 'bundle-ts']);

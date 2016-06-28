@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { HTTP_PROVIDERS } from '@angular/http';
 import { ROUTER_DIRECTIVES } from '@angular/router';
+import './rxjs-operators';
 
 @Component({
     selector: 'app',
@@ -8,6 +10,9 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
     `,
     directives: [
         ROUTER_DIRECTIVES
+    ],
+    providers: [
+        HTTP_PROVIDERS
     ]
 })
 

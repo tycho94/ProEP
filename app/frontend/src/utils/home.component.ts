@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { NavigationMenuComponent } from './navigation.menu.component';
 
 @Component({
-    template: `
-        <navigation-menu></navigation-menu>
-    `,
+    selector: 'home',
+    templateUrl: '/partials/home.component.html',
     directives: [
         NavigationMenuComponent,
     ]

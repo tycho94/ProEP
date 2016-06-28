@@ -1,26 +1,32 @@
-import { Component } from '@angular/core';
 import { AccountService } from "./account.service";
-
+import { Component, Input } from '@angular/core';
+import { Account } from './account.model';
+import { NavigationMenuComponent } from '../utils/navigation.menu.component';
+import { NgForm } from '@angular/common';
 
 @Component({
     selector: 'account-login',
-    providers: [AccountService],
-    template: `
-        <router-outlet></router-outlet>
-    `
+    templateUrl: '/partials/account.login.component.html',
+    directives: [NavigationMenuComponent],
+    providers: [AccountService]
 })
 
 export class AccountLoginComponent {
-    service: AccountService;
-    response: string;
-    userData: {};
+    error: any;
+    account: Account;
 
-    constructor (service: AccountService) {
-        this.service = service;
+    constructor (private service: AccountService) {
+        this.account = new Account(0, "", "", "");
     }
 
-    onPost() {
-        this.service
-        .postData(this.userData);
-    };
+    onSubmit() {
+        this.service.login(this.account).subscribe(
+            account => this.account = account,
+            error => this.error = <any>error
+        );
+    }
+
+    get diagnostic() {
+        return JSON.stringify(this.account);
+    }
 }

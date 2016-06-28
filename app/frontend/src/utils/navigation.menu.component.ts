@@ -4,7 +4,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
 
 @Component({
     selector: 'navigation-menu',
-    templateUrl: '/static/partials/navigation.menu.component.html',
+    templateUrl: '/partials/navigation.menu.component.html',
     directives: [
         ROUTER_DIRECTIVES,
         PopupDirective,
