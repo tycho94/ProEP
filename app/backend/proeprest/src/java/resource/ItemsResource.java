@@ -11,7 +11,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.Item;
-import service.ItemService;
 
 /**
  * REST Web Service
@@ -25,24 +24,6 @@ public class ItemsResource {
 
     Response r;
     Database db = new Database();
-    ItemService itemService = null;
-
-    @GET
-    public Response getAllItems() throws Exception {
-        List<Item> items = itemService.getAllItems();
-        r = null;
-        try {
-            if (items != null) {
-                return r = Response.ok(items).build();
-            } else {
-                throw new Exception("Nothing exist here!");
-            }
-        } catch (Exception e) {
-            return r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(e.getMessage())
-                    .build();
-        }
-    }
 
     @GET
     @Path("{ItemId}")
@@ -82,6 +63,23 @@ public class ItemsResource {
         }
         return r;
 
+    }
+    /*
+    @GET
+    public Response getAllItems() throws Exception {
+        List<Item> items = itemService.getAllItems();
+        r = null;
+        try {
+            if (items != null) {
+                return r = Response.ok(items).build();
+            } else {
+                throw new Exception("Nothing exist here!");
+            }
+        } catch (Exception e) {
+            return r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(e.getMessage())
+                    .build();
+        }
     }
 
     @GET
@@ -131,7 +129,6 @@ public class ItemsResource {
                     .build();
         }
         return r;
-
-    }
+    }*/
 
 }
