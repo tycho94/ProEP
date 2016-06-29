@@ -1,35 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Order } from './order.model';
-import { Http, Response, Headers } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 
 
 @Injectable()
 export class OrderService {
-    private orderUrl = 'http://192.168.20.24:8080/proeprest/api/orders';
+    private baseUrl = 'http://localhost:1337/?csurl=http://192.168.20.24:8080/proeprest/api/'
 
     constructor (private http: Http) {}
 
-    public getOrders (): Observable<Order[]> {
+    getOrders (): Observable<Order[]> {
         return this.http
-            .get('http://192.168.20.24:8080/proeprest/api/item/1')
+            .get(this.baseUrl + 'order/all')
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    public getOrder (id: number): Observable<Order> {
+    getOrder (id: number): Observable<Order> {
         return this.http
-            .get('http://192.168.20.24:8080/proeprest/api/item/1')
+            .get(this.baseUrl + 'order/' + id)
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    extractData (res: Response) {
-        let body = res.json();
-        return body.data || { };
+    private extractData (res: Response) {
+        return res.json() || { };
     }
 
-    handleError (error: any) {
+    private handleError (error: any) {
         let errMsg = (error.message) ? error.message :
             error.status ? `${error.status} - ${error.statusText}` : 'Server error';
         console.error(errMsg); // log to console instead

@@ -5,11 +5,14 @@ var out = 'app/';
 
 /* JS & TS */
 var typescript = require('gulp-typescript');
-var tsProject = typescript.createProject('tsconfig.json');
+var sourcemaps = require('gulp-sourcemaps');
+var tsconf = typescript.createProject('tsconfig.json');
 
 gulp.task('build-ts', function () {
     return gulp.src(src + '**/*.ts')
-        .pipe(typescript(tsProject))
+        .pipe(sourcemaps.init({'identityMap': true, 'debug': true}))
+            .pipe(typescript(tsconf))
+        .pipe(sourcemaps.write({'addComment': true, 'includeContent': true, 'debug': true}))
         .pipe(gulp.dest(out));
 });
 

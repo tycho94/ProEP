@@ -22,8 +22,12 @@ export class OrderListComponent implements OnInit {
 
     updateOrders () {
         this.service.getOrder(1).subscribe(
-            order => this.order = order,
-            error => this.error = error
+			function (order) {
+				this.order = order;
+			},
+            function (error) {
+				this.error = error;
+			}
         );
     }
 }
