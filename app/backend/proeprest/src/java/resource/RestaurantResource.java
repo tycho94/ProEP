@@ -33,9 +33,8 @@ public class RestaurantResource {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage())
                     .build();
-        } finally {
-            return r;
         }
+        return r;
     }
 
     @GET
@@ -50,9 +49,8 @@ public class RestaurantResource {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage())
                     .build();
-        } finally {
-            return r;
         }
+        return r;
     }
 
     @GET
@@ -73,8 +71,7 @@ public class RestaurantResource {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage())
                     .build();
-        } finally {
-            return r;
         }
+        return r;
     }
 }

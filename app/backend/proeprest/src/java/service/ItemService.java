@@ -43,7 +43,7 @@ public class ItemService {
 //	}
     public Item getItem(int id) throws Exception {
         for (Item i : itemlist) {
-            if (i.getItemID()== id) {
+            if (i.getItemID() == id) {
                 return i;
             }
         }

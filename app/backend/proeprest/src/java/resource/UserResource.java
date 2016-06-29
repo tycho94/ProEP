@@ -19,7 +19,7 @@ import model.User;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
-    
+
     Database db = new Database();
     Response r;
 
@@ -42,9 +42,9 @@ public class UserResource {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage())
                     .build();
-        } finally {
-            return r;
         }
+        return r;
+
     }
 
     @PUT
@@ -64,9 +64,9 @@ public class UserResource {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage())
                     .build();
-        } finally {
-            return r;
         }
+        return r;
+
     }
 
     @POST
@@ -95,9 +95,9 @@ public class UserResource {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage())
                     .build();
-        } finally {
-            return r;
         }
+        return r;
+
     }
 
     @POST
@@ -118,9 +118,9 @@ public class UserResource {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage())
                     .build();
-        } finally {
-            return r;
         }
+        return r;
+
     }
 
 }

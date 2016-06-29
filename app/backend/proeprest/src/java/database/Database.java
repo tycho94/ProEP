@@ -7,15 +7,14 @@ package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.Version;
 import model.*;
 
 /**
@@ -46,7 +45,7 @@ public class Database {
     public Database() {
         try {
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-            c = (Connection) DriverManager.getConnection("jdbc:mysql://192.168.15.56/dbi271837?",
+            c = DriverManager.getConnection("jdbc:mysql://192.168.15.56/dbi271837?",
                     "dbi271837",
                     "O3JUJwTWhi");
 
@@ -120,7 +119,11 @@ public class Database {
                             orders.get(i).addItem(
                                     new Item(rs.getInt("product_id"),
                                             rs.getString("Name"),
-                                            rs.getInt("price")));
+                                            rs.getInt("price"),
+                                            new Restaurant(rs.getInt("Restaurant_ID"),
+                                                    rs.getString("Restaurant_Name"),
+                                                    rs.getString("Pass"),
+                                                    rs.getString("ResCity"))));
                         }
                     }
                     //getItemByID.close();
@@ -175,16 +178,20 @@ public class Database {
                         o.addItem(
                                 new Item(rs.getInt("product_id"),
                                         rs.getString("Name"),
-                                        rs.getInt("price")));
+                                        rs.getInt("price"),
+                                        new Restaurant(rs.getInt("Restaurant_ID"),
+                                                rs.getString("Restaurant_Name"),
+                                                rs.getString("Pass"),
+                                                rs.getString("ResCity"))));
                     }
                 }
             }
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             o = null;
-        } finally {
-            return o;
         }
+        return o;
+
     }
 
     public Restaurant getRestaurantByID(int id) {
@@ -205,9 +212,9 @@ public class Database {
             Logger.getLogger(Database.class
                     .getName()).log(Level.SEVERE, null, ex);
             r = null;
-        } finally {
-            return r;
         }
+        return r;
+
     }
 
     public Restaurant getRestaurantByName(String name) {
@@ -228,9 +235,9 @@ public class Database {
             Logger.getLogger(Database.class
                     .getName()).log(Level.SEVERE, null, ex);
             r = null;
-        } finally {
-            return r;
         }
+        return r;
+
     }
 
     public List<Restaurant> getRestaurantByCity(String city) {
@@ -251,9 +258,9 @@ public class Database {
             Logger.getLogger(Database.class
                     .getName()).log(Level.SEVERE, null, ex);
             r = null;
-        } finally {
-            return r;
         }
+        return r;
+
     }
 
     public Item GetItemByID(int id) {
@@ -275,9 +282,9 @@ public class Database {
         } catch (SQLException ex) {
             Logger.getLogger(Database.class
                     .getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            return i;
         }
+        return i;
+
     }
 
     public List<Item> GetItemsByRestaurantID(int id) {
@@ -296,9 +303,9 @@ public class Database {
             Logger.getLogger(Database.class
                     .getName()).log(Level.SEVERE, null, ex);
             i = null;
-        } finally {
-            return i;
         }
+        return i;
+
     }
 
     public User GetUserByName(String name) {
@@ -323,9 +330,9 @@ public class Database {
         } catch (SQLException ex) {
             Logger.getLogger(Database.class
                     .getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            return u;
         }
+        return u;
+
     }
 
     public boolean UpdateUser(User u) {
@@ -404,17 +411,17 @@ public class Database {
         } catch (SQLException ex) {
             Logger.getLogger(Database.class
                     .getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (checkPass != null) {
-                if (checkPass.equals(pass)) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            } else {
-                return -1;
-            }
         }
+        if (checkPass != null) {
+            if (checkPass.equals(pass)) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } else {
+            return -1;
+        }
+
     }
 
     /* private Address GetAddressByID(int id) {

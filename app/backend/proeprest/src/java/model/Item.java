@@ -24,8 +24,8 @@ public class Item {
         this.name = name;
         this.price = price;
         this.restaurant = restaurant;
-    }    
-    
+    }
+
     public Item(int itemID, String name, int price) {
         this.itemID = itemID;
         this.name = name;
@@ -64,8 +64,5 @@ public class Item {
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
-    
-    
-    
 
 }

@@ -10,13 +10,11 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import model.Item;
 import model.Order;
 
 /**
@@ -30,7 +28,6 @@ public class OrderResource {
 
     Response r;
     Database db = new Database();
-    
 
     @GET
     @Path("{id}")
@@ -49,14 +46,13 @@ public class OrderResource {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage())
                     .build();
-        } finally {
-            return r;
         }
+        return r;
     }
-    
+
     @POST
     @Path("add/{Oid}/{iid}")
-    public Response AddItemIDOrder(@PathParam("Oid") int orderID ,@PathParam("iid") int itemID ) {
+    public Response AddItemIDOrder(@PathParam("Oid") int orderID, @PathParam("iid") int itemID) {
         r = null;
         try {
             if (db.addToOrder(orderID, itemID)) {
@@ -70,11 +66,10 @@ public class OrderResource {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage())
                     .build();
-        } finally {
-            return r;
         }
-    }    
-    
+        return r;
+    }
+
     @GET
     @Path("all")
     public Response getAllOrders() {
@@ -92,12 +87,11 @@ public class OrderResource {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage())
                     .build();
-        } finally {
-            return r;
         }
+        return r;
     }
 
-/*
+    /*
     @POST
     @Path("create")
     public Response createOrder(Order o) {
@@ -161,5 +155,4 @@ public class OrderResource {
             return r;
         }
     }*/
-
 }

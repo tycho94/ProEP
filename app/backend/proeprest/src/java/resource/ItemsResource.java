@@ -6,7 +6,6 @@
 package resource;
 
 import database.Database;
-import java.sql.SQLException;
 import java.util.List;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -60,11 +59,11 @@ public class ItemsResource {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage())
                     .build();
-        } finally {
-            return r;
         }
-    }    
-    
+        return r;
+
+    }
+
     @GET
     @Path("rest/{RestaurantID}")
     public Response getItemByRestaurantID(@PathParam("RestaurantID") int id) throws Exception {
@@ -80,9 +79,9 @@ public class ItemsResource {
             r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage())
                     .build();
-        } finally {
-            return r;
         }
+        return r;
+
     }
 
     @GET
@@ -100,9 +99,9 @@ public class ItemsResource {
             r = Response.status(Response.Status.NOT_FOUND)
                     .entity(e.getMessage())
                     .build();
-        } finally {
-            return r;
         }
+        return r;
+
     }
 
     @POST
@@ -114,9 +113,9 @@ public class ItemsResource {
             r = Response.status(Response.Status.FORBIDDEN)
                     .entity(e.getMessage())
                     .build();
-        } finally {
-            return r;
         }
+        return r;
+
     }
 
     @PUT
@@ -130,9 +129,9 @@ public class ItemsResource {
             r = Response.status(Response.Status.FORBIDDEN)
                     .entity(e.getMessage())
                     .build();
-        } finally {
-            return r;
         }
+        return r;
+
     }
 
 }

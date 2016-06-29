@@ -5,9 +5,6 @@
  */
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  * @author mikaeil
@@ -18,7 +15,7 @@ public class Restaurant {
     String name;
     String password;
     String city;
-    
+
     public Restaurant() {
     }
 
@@ -32,6 +29,7 @@ public class Restaurant {
     public void setRestaurantID(int resID) {
         this.restaurantID = resID;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -39,7 +37,7 @@ public class Restaurant {
     public int getRestaurantID() {
         return restaurantID;
     }
-    
+
     public String getPassword() {
         return password;
     }
@@ -55,6 +53,5 @@ public class Restaurant {
     public void setCity(String city) {
         this.city = city;
     }
-    
 
 }
