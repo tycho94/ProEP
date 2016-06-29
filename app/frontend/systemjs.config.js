@@ -8,13 +8,15 @@
     'app':                        'app', // 'dist',
     '@angular':                   'node_modules/@angular',
     'rxjs':                       'node_modules/rxjs',
-    'symbol-observable':          'node_modules/symbol-observable'
+    'symbol-observable':          'node_modules/symbol-observable',
+	'lodash':                     'node_modules/lodash'
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
     'app':                        { main: 'bootstrap.js',  defaultExtension: 'js' },
     'rxjs':                       { defaultExtension: 'js' },
     'symbol-observable':          { main: 'index.js', defaultExtension: 'js' },
+    'lodash':                     { main: 'lodash.js', defaultExtension:'js'}
   };
   var ngPackageNames = [
     'common',

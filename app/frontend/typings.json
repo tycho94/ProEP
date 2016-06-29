@@ -3,6 +3,10 @@
     "core-js": "registry:dt/core-js",
     "jasmine": "registry:dt/jasmine",
     "jquery": "registry:dt/jquery",
+    "lodash": "registry:dt/lodash",
     "node": "registry:dt/node"
+  },
+  "dependencies": {
+    "lodash": "registry:npm/lodash#4.0.0+20160416211519"
   }
 }

@@ -189,23 +189,12 @@ ul {
     margin-top: 5%;
 }
 
-form.account-form input[type="username"],
-form.account-form input[type="password"] {
-    background: #fde0e3 none repeat scroll 0 0;
-    border: 2px solid #fff;
-    color: #000;
-    display: block;
-    height: 40px;
-    margin-bottom: 13px;
-    padding-left: 15px;
-    width: 100%;
+.create-account-area {
+    margin-top: 0;
 }
-.tab-content {
+
+#create-account-form {
     background: #f6dada none repeat scroll 0 0;
-    padding: 80px 10px 20px;
-}
-.name, .address {
-    overflow: hidden;
 }
 
 #submit-account-button {

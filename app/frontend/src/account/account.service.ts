@@ -6,47 +6,68 @@ import { Observable }     from 'rxjs/Observable';
 
 @Injectable()
 export class AccountService {
-    private accountUrl = 'http://192.168.20.24:8080/proeprest/account/create';
+    private baseUrl = 'http://localhost:1337/?csurl=http://192.168.20.24:8080/proeprest/api/user'
+    private user: Account;
 
     constructor (private http: Http) {}
 
-    post (path: string, data: Account): Observable<Account> {
+    private post (path: string, data: Account): Observable<Account> {
+        let url = `${this.baseUrl}/${path}`;
         let body = JSON.stringify(data);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
+        console.log(url);
+        console.log(body);
         return this.http
-            .post(this.accountUrl + path, body, options)
+            .post(url, body, options)
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    delete (account: Account) {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let url = `${this.accountUrl}/${account.id}`;
+    private get (path: string): Observable<Account> {
+        let url = `${this.baseUrl}/${path}`;
 
         return this.http
-            .delete(url, headers)
+            .get(url)
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    public login (account: Account) {
-        return this.post('/login', account)
+    createAccount (account: Account) {
+        let path = `singup`;
+
+        return this.post(path, account);
     }
 
-    public createAccount (account: Account) {
-        return this.post('/create', account)
+    login (account: Account) {
+        let path = `login/${account.username}`;
+
+        return this.post(path, account.password);
     }
 
-    handleError (error: any) {
+    loggedIn () {
+       return this.user ? true : false;
+    }
+
+    getCurrentUser () {
+        return this.user;
+    }
+
+    getUser(name: string) {
+        let path = `name/${this.user.username}`;
+
+        return this.get(path);
+    }
+
+    private handleError (error: any) {
         let errMsg = (error.message) ? error.message :
             error.status ? `${error.status} - ${error.statusText}` : 'Server error';
         console.error(errMsg); // log to console instead
         return Observable.throw(errMsg);
     }
 
-    extractData (res: Response) {
+    private extractData (res: Response) {
         let body = res.json();
         return body.data || { };
     }

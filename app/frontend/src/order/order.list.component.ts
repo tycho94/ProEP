@@ -12,22 +12,28 @@ import { NavigationMenuComponent } from '../utils/navigation.menu.component';
 
 export class OrderListComponent implements OnInit {
     error: any;
-    order: Order;
+    orders: Order[];
+	totalPrice: number;
 
     constructor (private service: OrderService) {}
 
     ngOnInit() {
+        this.orders = [];
         this.updateOrders();
     }
 
     updateOrders () {
-        this.service.getOrder(1).subscribe(
-			function (order) {
-				this.order = order;
-			},
-            function (error) {
-				this.error = error;
-			}
+        this.service.getOrders().subscribe(
+		    orders => this.orders.push.apply(this.orders, orders),
+		    error => this.error = error
         );
+
+		let price = 0;
+
+		for (let order of this.orders) {
+			price += order.price;
+		}
+
+		this.totalPrice = price;
     }
 }

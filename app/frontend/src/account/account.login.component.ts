@@ -1,8 +1,10 @@
 import { AccountService } from "./account.service";
-import { Component, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Account } from './account.model';
+import { Address } from './address.model';
 import { NavigationMenuComponent } from '../utils/navigation.menu.component';
 import { NgForm } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'account-login',
@@ -11,20 +13,29 @@ import { NgForm } from '@angular/common';
     providers: [AccountService]
 })
 
-export class AccountLoginComponent {
+export class AccountLoginComponent implements OnInit {
     error: any;
     account: Account;
 
-    constructor (private service: AccountService) {
-        this.account = new Account(0, "", "", "");
+    constructor (
+        private router: Router,
+        private service: AccountService
+    ) {}
+
+    ngOnInit() {
+        this.account = new Account(new Address("", "", "", ""), "", "", "");
     }
 
     onSubmit() {
         this.service.login(this.account).subscribe(
-            account => this.account = account,
-            error => this.error = <any>error
+            smt => console.log('smt'),
+            err => console.error(err)
         );
     }
+
+	toCreateAccount() {
+        this.router.navigate(['/account/create']);
+	}
 
     get diagnostic() {
         return JSON.stringify(this.account);
