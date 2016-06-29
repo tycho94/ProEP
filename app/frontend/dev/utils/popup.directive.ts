@@ -1,4 +1,5 @@
 import { ViewChild, Directive, ElementRef, Input } from '@angular/core';
+declare var $:JQueryStatic;
 
 @Directive({
     selector: '[popup]',
@@ -8,14 +9,7 @@ import { ViewChild, Directive, ElementRef, Input } from '@angular/core';
 })
 
 export class PopupDirective {
-    private originElement: HTMLElement;
-
-    constructor (originElement: ElementRef) {
-        this.originElement = originElement.nativeElement;
-    }
-
     onClicked($event) {
-        console.log(this.originElement);
-        console.log($event);
+        $(".menu_body").fadeToggle(500);
     }
 }

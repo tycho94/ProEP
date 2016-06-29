@@ -38,48 +38,7 @@
     <script src="/systemjs.config.js"></script>
     <script>System.import('/app/bootstrap').catch(function(err){ console.error(err); });</script>
   </head>
-
-  <body>
-    <!-- navigation sign -->
-    <header class="header_area">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="to-close pull-right">
-              <div class="x">
-                <input type="checkbox" id="menu-x"/>
-                <label for="menu-x"><span></span></label>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- navigation popup -->
-    <div class="menu_body">
-      <section class="mainmenu_area">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="mainmenu text-center">
-                <ul id="nav">
-                  <li><a href="/">home</a>
-                  </li>
-                  <li><a href="/static/work.html">how it works</a>
-                  </li>
-                  <li><a href="/static/order.html">your order</a>
-                  </li>
-                  <li><a href="/static/sign-in.html">sign in</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-
+    <navigation-menu></navigation-menu>
     <!-- main section -->
     <section class="main_area">
       <div class="container">
@@ -112,7 +71,6 @@
     <script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
     <script src="/assets/js/bootstrap.min.js"></script>
     <script src="/assets/js/plugins.js"></script>
-    <script src="/assets/js/main.js"></script>
 
   </body>
 </html>

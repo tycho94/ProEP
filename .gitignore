@@ -17,6 +17,9 @@ app/frontend/typings/
 app/frontend/app/
 app/frontend/npm-debug.log
 
+# vagrant images
+.vagrant/
+
 
 
 ### WebStorm ###
