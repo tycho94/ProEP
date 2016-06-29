@@ -1,0 +1,21 @@
+<navigation-menu></navigation-menu>
+<div class="work_bg">
+  <section class="login-area">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+          <form class="account-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+            <input type="username" [(ngModel)]="account.username" name="username" required /><br>
+            <input type="password" [(ngModel)]="account.password" name="password" required /><br>
+            <input type="submit" id="submit-account-button" value="Login" />
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+          <button id="submit-account-button" type="button">No account? Create one!</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

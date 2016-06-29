@@ -19,11 +19,16 @@ git clone https://github.com/mschwarzmueller/angular2-seed.git
 ```
 2: Install packages
 ```
-npm install
+make install
 ```
 3: Start server (includes auto refreshing) and gulp watcher
 ```
-npm start
+make
 ```
 
 4: Visit localhost:3000 (default) if the tab hasn't opened automatically
+
+## Structure  
+All the typescript goes into `src`  
+The `partials` is for html templates that are dynamically loaded.
+The `app` is for compiled javascript, you don't need it.

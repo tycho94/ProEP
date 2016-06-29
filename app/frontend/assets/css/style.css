@@ -185,39 +185,12 @@ ul {
     font-weight: 700;
     margin-top: 25px;
 }
-.login_area {
+.login-area {
     margin-top: 5%;
 }
-.login_body {
-  background: rgba(0, 0, 0, 0) url("/assets/img/signinbkg.jpg") no-repeat scroll 0 0 / cover ;
-}
-.login {
-  box-shadow: 0 0 20px #666;
-}
-.mk_tab_nav li {
-    background: #fee9e4 none repeat scroll 0 0;
-    border-bottom: 1px solid #ec008c;
-    float: left;
-    line-height: 50px;
-    text-align: center;
-    width: 50%;
-}
-.mk_tab_nav ul li a {
-  color: #191919;
-  display: block;
-  font-size: 24px;
-}
-.mk_tab_nav ul li.active {
-    background: #fff none repeat scroll 0 0;
-    border-bottom: 3px solid #ec008c;
-    line-height: 48px;
-    font-weight: 700;
-}
-#login input[type="email"],
-#login input[type="password"],
-#signup input[type="text"],
-#signup input[type="email"],
-#signup input[type="password"] {
+
+form.account-form input[type="username"],
+form.account-form input[type="password"] {
     background: #fde0e3 none repeat scroll 0 0;
     border: 2px solid #fff;
     color: #000;
@@ -235,37 +208,8 @@ ul {
     overflow: hidden;
 }
 
-
-#signup .last_name,
-#signup .first_name,
-#signup .city,
-#signup .post_code {
-    float: left;
-    margin-right: 4%;
-    width: 48%;
-	position:relative;
-}
-#signup .last_name,
-#signup .post_code {
-	margin-right: 0;
-}
-#signup .last_name > span,
-#signup .first_name > span,
-#signup .city > span,
-#signup .post_code > span
-{
-  color: red;
-  position: absolute;
-  right: 7px;
-  top: 5px;
-}
-#signup .address input:last-child,
-#signup .name input:last-child
-{
-    margin-right: 0;
-}
-#login input[type="submit"],
-#signup input[type="submit"] {
+#submit-account-button {
+    margin-bottom: 50px;
     background: #fff none repeat scroll 0 0;
     border: medium none;
     color: #c90d0d;
@@ -273,46 +217,6 @@ ul {
     height: 40px;
     padding: 0 22px;
 	transition: .8s;
-}
-#login input[type="submit"]:hover,
-#signup input[type="submit"]:hover {
-    background: #AB3670 none repeat scroll 0 0;
-	color: #fff;
-
-}
-.password,
-.email,
-.username,
-.housenumber{
-    position: relative;
-}
-.password > span,
-.email > span,
-.username > span,
-.housenumber > span{
-    color: red;
-    position: absolute;
-    right: 7px;
-    top: 5px;
-    z-index: 999;
-}
-
-.checkout_btn input[type="submit"] {
-    background: #ffd200 none repeat scroll 0 0;
-    border: medium none;
-    color: #fff;
-    display: block;
-    /*padding: 15px;*/
-    margin: 6px auto 0;
-    padding: 20px;
-    transition: .8s;
-    width: auto;
-}
-
-
-.checkout_btn input[type="submit"]:hover {
-    background: #e8bf02 none repeat scroll 0 0;
-    cursor:pointer;
 }
 
 /*================ Menu Bar =================*/
@@ -325,7 +229,7 @@ header.header_area {
 .menu_show{
 	display: block;
 }
-.work_bg, .login_area, .order_bg {
+.work_bg, .login-area, .order_bg {
   padding-top: 90px;
 }
 .x {
