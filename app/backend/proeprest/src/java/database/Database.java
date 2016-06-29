@@ -39,7 +39,9 @@ public class Database {
             getRestaurantByID,
             getRestaurantByName,
             getRestaurantsByCity,
-            getOrderByID;
+            getOrderByID,
+            addItemToOrder,
+            getAllOrders;
 
     public Database() {
         try {
@@ -85,10 +87,70 @@ public class Database {
             //Orders
             getOrderByID = c.prepareStatement(
                     "SELECT * FROM `order` WHERE `OrderID` = ?");
+            addItemToOrder = c.prepareStatement(
+                    "UPDATE `order` SET `list` = ? WHERE `OrderID` = ? ");
+            getAllOrders = c.prepareStatement(
+                    "SELECT * FROM `order`");
 
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public List<Order> getAllOrders() {
+        List<Order> orders = new ArrayList<>();
+        List<String[]> s = new ArrayList<>();
+        try {
+            try (ResultSet rs = getAllOrders.executeQuery()) {
+                while (rs.next()) {
+                    Order o = new Order();
+                    o.setID(rs.getInt("OrderID"));
+                    o.setUsername(rs.getString("UserName"));
+                    s.add(rs.getString("list").split("-"));
+                    orders.add(o);
+                }
+                getOrderByID.close();
+            }
+
+            for (int i = 0; i < s.size(); i++) {
+                for (String item : s.get(i)) {
+                    getItemByID.setInt(1, Integer.parseInt(item));
+                    try (ResultSet rs = getItemByID.executeQuery()) {
+                        while (rs.next()) {
+                            orders.get(i).addItem(
+                                    new Item(rs.getInt("product_id"),
+                                            rs.getString("Name"),
+                                            rs.getInt("price")));
+                        }
+                    }
+                    //getItemByID.close();
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return orders;
+    }
+
+    public boolean addToOrder(int orderID, int itemID) {
+        Order o = getOrderByID(orderID);
+        String s = "";
+
+        for (Item i : o.getOrderlist()) {
+            s = s + Integer.toString(i.getItemID()) + "-";
+        }
+        s = s + Integer.toString(itemID) + "-";
+        try {
+            addItemToOrder.setString(1, s);
+            addItemToOrder.setInt(2, orderID);
+            addItemToOrder.executeUpdate();
+            addItemToOrder.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return true;
     }
 
     public Order getOrderByID(int id) {
@@ -278,9 +340,9 @@ public class Database {
             Logger.getLogger(Database.class
                     .getName()).log(Level.SEVERE, null, ex);
             return false;
-        } finally {
-            return true;
         }
+        return true;
+
     }
 
     public boolean CreateUser(User u) {

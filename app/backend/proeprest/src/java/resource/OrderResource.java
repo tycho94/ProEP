@@ -18,7 +18,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.Item;
 import model.Order;
-import service.OrderService;
 
 /**
  *
@@ -30,7 +29,6 @@ import service.OrderService;
 public class OrderResource {
 
     Response r;
-    OrderService service;
     Database db = new Database();
     
 
@@ -55,6 +53,50 @@ public class OrderResource {
             return r;
         }
     }
+    
+    @POST
+    @Path("add/{Oid}/{iid}")
+    public Response AddItemIDOrder(@PathParam("Oid") int orderID ,@PathParam("iid") int itemID ) {
+        r = null;
+        try {
+            if (db.addToOrder(orderID, itemID)) {
+                r = Response.ok().build();
+            } else {
+                r = Response.status(Response.Status.CONFLICT)
+                        .entity("order not found")
+                        .build();
+            }
+        } catch (Exception e) {
+            r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(e.getMessage())
+                    .build();
+        } finally {
+            return r;
+        }
+    }    
+    
+    @GET
+    @Path("all")
+    public Response getAllOrders() {
+        try {
+            r = null;
+            List<Order> orders = db.getAllOrders();
+            if (orders != null) {
+                r = Response.ok(orders).build();
+            } else {
+                r = Response.status(Response.Status.NOT_FOUND)
+                        .entity("Error in getting orders")
+                        .build();
+            }
+        } catch (Exception e) {
+            r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(e.getMessage())
+                    .build();
+        } finally {
+            return r;
+        }
+    }
+
 /*
     @POST
     @Path("create")
@@ -98,27 +140,7 @@ public class OrderResource {
         }
     }
 
-    @POST
-    @Path("additem")
-    public Response AddItemOrder(Item u) {
-        r = null;
-        try {
-            if (service.AddItemToOrder(new Order(), u)) {
-                r = Response.ok().build();
-            } else {
-                r = Response.status(Response.Status.CONFLICT)
-                        .entity("Item already exists")
-                        .build();
-            }
-        } catch (Exception e) {
-            r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(e.getMessage())
-                    .build();
-        } finally {
-            return r;
-        }
-    }
-
+    
     @POST
     @Path("addorder")
     public Response AddOrder(Order u) {
