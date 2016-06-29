@@ -40,7 +40,9 @@ public class Database {
             getRestaurantsByCity,
             getOrderByID,
             addItemToOrder,
-            getAllOrders;
+            getAllOrders,
+            getOrderFromUser,
+            createOrder;
 
     public Database() {
         try {
@@ -49,6 +51,8 @@ public class Database {
                     "dbi271837",
                     "O3JUJwTWhi");
 
+            // c.createStatement().execute(
+            //       "UPDATE `order` SET `UserName` = 'Tom' WHERE `OrderID` = 3");
             //prepared statements
             //users
             getAllUsers = c.prepareStatement(
@@ -90,10 +94,72 @@ public class Database {
                     "UPDATE `order` SET `list` = ? WHERE `OrderID` = ? ");
             getAllOrders = c.prepareStatement(
                     "SELECT * FROM `order`");
+            getOrderFromUser = c.prepareStatement(
+                    "SELECT * FROM `order` WHERE `UserName` = ?");
+            createOrder = c.prepareStatement(
+                    "INSERT INTO `order` (`UserName`, `list`) VALUES (?,?)");
 
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public boolean createOrder(Order o) {
+        try {
+            createOrder.setString(1, o.getUsername());
+            String s = "";
+            for (Item i : o.getOrderlist()) {
+                s = s + Integer.toString(i.getItemID()) + "-";
+            }
+            createOrder.setString(2, s);
+            createOrder.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+
+    }
+
+    public List<Order> getOrderByUser(String username) {
+        List<Order> orders = new ArrayList<>();
+        List<String[]> s = new ArrayList<>();
+        try {
+            getOrderFromUser.setString(1, username);
+            try (ResultSet rs = getOrderFromUser.executeQuery()) {
+                while (rs.next()) {
+                    Order o = new Order();
+                    o.setID(rs.getInt("OrderID"));
+                    o.setUsername(rs.getString("UserName"));
+                    s.add(rs.getString("list").split("-"));
+                    orders.add(o);
+                }
+                getOrderFromUser.close();
+            }
+
+            for (int i = 0; i < s.size(); i++) {
+                for (String item : s.get(i)) {
+                    getItemByID.setInt(1, Integer.parseInt(item));
+                    try (ResultSet rs = getItemByID.executeQuery()) {
+                        while (rs.next()) {
+                            orders.get(i).addItem(
+                                    new Item(rs.getInt("product_id"),
+                                            rs.getString("Name"),
+                                            rs.getInt("price"),
+                                            new Restaurant(rs.getInt("Restaurant_ID"),
+                                                    rs.getString("Restaurant_Name"),
+                                                    rs.getString("Pass"),
+                                                    rs.getString("ResCity"))));
+                        }
+                    }
+                    //getItemByID.close();
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return orders;
     }
 
     public List<Order> getAllOrders() {
@@ -126,7 +192,6 @@ public class Database {
                                                     rs.getString("ResCity"))));
                         }
                     }
-                    //getItemByID.close();
                 }
             }
         } catch (SQLException ex) {

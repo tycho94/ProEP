@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -29,6 +30,29 @@ public class OrderResource {
     Response r;
     Database db = new Database();
 
+    
+    
+    @GET
+    @Path("all/{username}")
+    public Response getOrderByUser(@PathParam("username") String user){
+        try {
+            r = null;
+            List<Order> orders = db.getOrderByUser(user);
+            if (orders != null) {
+                r = Response.ok(orders).build();
+            } else {
+                r = Response.status(Response.Status.NOT_FOUND)
+                        .entity("Error in getting orders")
+                        .build();
+            }
+        } catch (Exception e) {
+            r = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(e.getMessage())
+                    .build();
+        }
+        return r;      
+    }
+    
     @GET
     @Path("{id}")
     public Response getOrderByID(@PathParam("id") int id) {
@@ -50,7 +74,7 @@ public class OrderResource {
         return r;
     }
 
-    @POST
+    @PUT
     @Path("add/{Oid}/{iid}")
     public Response AddItemIDOrder(@PathParam("Oid") int orderID, @PathParam("iid") int itemID) {
         r = null;
@@ -91,13 +115,13 @@ public class OrderResource {
         return r;
     }
 
-    /*
+    
     @POST
     @Path("create")
     public Response createOrder(Order o) {
         r = null;
         try {
-            if (service.createOrder(o)) {
+            if (db.createOrder(o)) {
                 r = Response.ok().build();
             } else {
                 r = Response.status(Response.Status.CONFLICT)
@@ -112,7 +136,7 @@ public class OrderResource {
             return r;
         }
     }
-
+/*
     @PUT
     @Path("update")
     public Response updateOrder(Order o) {
