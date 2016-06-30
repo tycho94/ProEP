@@ -49,7 +49,7 @@ public class Database {
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             c = DriverManager.getConnection("jdbc:mysql://192.168.15.56/dbi271837?",
                     "dbi271837",
-                    "O3JUJwTWhi");
+                    "wgBMl8hjgV");
 
             // c.createStatement().execute(
             //       "UPDATE `order` SET `UserName` = 'Tom' WHERE `OrderID` = 3");
