@@ -358,7 +358,7 @@ public class Database {
             getItemByRestaurantID.setInt(1, id);
             try (ResultSet rs = getItemByRestaurantID.executeQuery()) {
                 while (rs.next()) {
-                    i.add(new Item(id, rs.getString("Name"),
+                    i.add(new Item(rs.getInt("Product_ID"), rs.getString("Name"),
                             rs.getInt("Price")));
                 }
             }
