@@ -24,10 +24,19 @@ export class OrderListComponent implements OnInit {
 
     updateOrders () {
         this.service.getOrders().subscribe(
-		    orders => this.orders.push.apply(this.orders, orders),
+            (orders) => {
+                for (let order of orders) {
+                    if (order.username === "Tom") {
+                        this.orders.push.apply(this.orders, order.orderlist);
+                        this.updatePrice();
+                    }
+                }
+            },
 		    error => this.error = error
         );
+    }
 
+    updatePrice () {
 		let price = 0;
 
 		for (let order of this.orders) {

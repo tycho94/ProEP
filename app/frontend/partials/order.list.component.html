@@ -10,11 +10,12 @@
         </div>
         <div class="col-sm-6">
           <div class="address">
-            <p><span style="font-weight: bold">Aslan Maäh</span>
+            <p><span style="font-weight: bold">Henk Smeulders</span>
             <br>Delivery Address:
             <br/>Halter Camp 435,
             <br/>Amsterdam,
-            <br/>Netherlands</p>
+            <br/>Netherlands
+            <br><br>Total price: {{ totalPrice }}</p>
           </div>
         </div>
       </div>
@@ -45,11 +46,6 @@
         </div>
       </div>
       <hr/>
-      <div class="col-sm-12">
-        <div class="total text-right">
-          <p>{{ totalPrice }}</p>
-        </div>
-      </div>
     </div>
     <button (click)="updateOrders()" type="button">update orders</button>
   </section>

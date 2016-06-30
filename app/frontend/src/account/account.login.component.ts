@@ -28,13 +28,18 @@ export class AccountLoginComponent implements OnInit {
 
     onSubmit() {
         this.service.login(this.account).subscribe(
-            smt => console.log('smt'),
+            smt => console.log(smt),
             err => console.error(err)
         );
+        this.toOrders();
     }
 
 	toCreateAccount() {
         this.router.navigate(['/account/create']);
+	}
+
+	toOrders() {
+        this.router.navigate(['/order/list']);
 	}
 
     get diagnostic() {

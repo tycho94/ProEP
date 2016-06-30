@@ -6,7 +6,7 @@ import { Observable }     from 'rxjs/Observable';
 
 @Injectable()
 export class AccountService {
-    private baseUrl = 'http://localhost:1337/?csurl=http://192.168.20.24:8080/proeprest/api/user'
+    private baseUrl = 'http://localhost:1337/?url=http://192.168.20.24:8080/proeprest/api/user'
     private user: Account;
 
     constructor (private http: Http) {}
