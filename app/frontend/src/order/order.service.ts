@@ -6,26 +6,30 @@ import { Observable }     from 'rxjs/Observable';
 
 @Injectable()
 export class OrderService {
-    private baseUrl = 'http://localhost:1337/?csurl=http://192.168.20.24:8080/proeprest/api/'
+    private baseUrl = 'http://localhost:1337/?url=http://192.168.20.24:8080/proeprest/api/order/'
 
     constructor (private http: Http) {}
 
     getOrders (): Observable<Order[]> {
         return this.http
-            .get(this.baseUrl + 'order/all')
+            .get(this.baseUrl + 'all')
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    getOrder (id: number): Observable<Order> {
+    getOrder (id: number): Observable<any> {
         return this.http
-            .get(this.baseUrl + 'order/' + id)
+            .get(this.baseUrl + id)
             .map(this.extractData)
             .catch(this.handleError);
     }
 
     private extractData (res: Response) {
-        return res.json() || { };
+        if (!res.ok) {
+            throw new Error("Bad response. - " + res);
+        }
+        console.log(res);
+        return res.json().contents || { };
     }
 
     private handleError (error: any) {

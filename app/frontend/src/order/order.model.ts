@@ -1,6 +1,5 @@
 export class Order {
-    price: number;
     name: string;
-    img: string;
+    price: number;
     deliveryStatus: string;
 }
