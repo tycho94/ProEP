@@ -28,3 +28,5 @@ Add a new server - Call it "Apache Tomcat or TomEE"
 Give the location of the server and the login for the server with the manager-script role
 
 Now the project should be runnable (given the code is compilable)
+
+To connect to the  database you need to be connected to the vpn of vdi.fhict.nl (recently updated and dbms rules are interfering with auto management
